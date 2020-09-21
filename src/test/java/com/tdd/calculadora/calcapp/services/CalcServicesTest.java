@@ -49,5 +49,4 @@ public class CalcServicesTest {
         assertEquals("71.0", calcService.sumaStrings(val1, val2));
 
     }
-
 }
