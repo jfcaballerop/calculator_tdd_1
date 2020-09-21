@@ -19,4 +19,18 @@ pom.xml
 		</dependency>
 ```
 ## TDD - Red-Green-Refactor
-Dentro del proceso de TDD, en esta parte del código se ha usado esta metodología para realizar
+Dentro del proceso de TDD, en esta parte del código se ha usado esta metodología para realizar el proceso de codificación.
+Cada persona puede elegir empezar por donde mejor crea o le resulte más cómodo, pero a mí me resulta más cómodo hacerlo dedse los @services.
+
+### TDD - RGF @Services
+Vamos a definir todas las operaciones que queremos que haga nuestra calculadora.
+CalculatorService.java
+```java
+public interface CalculatorService {
+
+    public Integer sumaInt(int num1, int num2);
+    public Integer restaInt(int num1, int num2);
+    public Integer sumatorioArrInt(int[] arr);
+    public String sumaStrings(String val1, String val2);
+}
+```
