@@ -1,7 +1,8 @@
 # CalApp
+---
 Aplicación de calculadora que ilustra el proceso TDD.
 
-## Config JUNIT5
+## 1. Config JUNIT5
 Para configurar el uso de Junit5 con SpringBoot, se debe marcar y exlcuir la versión de Junit4.
 
 pom.xml
@@ -18,13 +19,14 @@ pom.xml
 			</exclusions>
 		</dependency>
 ```
-## TDD - Red-Green-Refactor
+## 2. TDD - Red-Green-Refactor
 Dentro del proceso de TDD, en esta parte del código se ha usado esta metodología para realizar el proceso de codificación.
 Cada persona puede elegir empezar por donde mejor crea o le resulte más cómodo, pero a mí me resulta más cómodo hacerlo dedse los @services.
 
 ### TDD - RGF @Services
 Vamos a definir todas las operaciones que queremos que haga nuestra calculadora.
-CalculatorService.java
+
+**CalculatorService.java**
 ```java
 public interface CalculatorService {
 
@@ -49,4 +51,59 @@ public class CalcServicesTest {
         assertEquals(98, calcService.sumaInt(num1, num2));
     }
 }
+```
+Ahora codificamos el método:
+
+**CalculatorServiceImpl.java**
+```java
+    @Override
+    public Integer sumaInt(int num1, int num2) {
+        return num1 + num2;
+    }
+```
+
+En un segundo caso podremos pensar que esto solo vale para INTEGERS y nos da por refactorizarlo y admitir más tipos de NUMEROS o dentro de Java NUMBERS.
+Volvemos a generar el TEST
+```java
+public class CalcServicesTest {
+
+    @Autowired
+    private CalculatorService calcService = new CalculatorServiceImpl();
+
+  @Test
+    public void sumaStrings() {
+        String val1 = "34";
+        String val2 = "36";
+        assertEquals("70.0", calcService.sumaStrings(val1, val2));
+
+    }
+
+    @Test
+    public void sumaStringsNumber() {
+        String val1 = "35,5";
+        String val2 = "35,5";
+        assertEquals("71.0", calcService.sumaStrings(val1, val2));
+
+    }
+}
+```
+
+Y su código:
+
+**CalculatorServiceImpl.java**
+```java
+    @Override
+    public String sumaStrings(String val1, String val2) {
+        try {
+            Number num1;
+            Number num2;
+            num1 = NumberFormat.getInstance().parse(val1);
+            num2 = NumberFormat.getInstance().parse(val2);
+            return "" + (num1.doubleValue() + num2.doubleValue());
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
+    }
 ```
