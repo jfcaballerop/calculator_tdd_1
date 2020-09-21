@@ -34,3 +34,19 @@ public interface CalculatorService {
     public String sumaStrings(String val1, String val2);
 }
 ```
+
+Y así vamos a ir creando primero el Test, esperamos que falle (RED). Lo codificamos probamos hasta que funcione (GREEN) y por ultimo según vayamos codificando vamos mejorando el código (REFACTOR)
+```java
+public class CalcServicesTest {
+
+    @Autowired
+    private CalculatorService calcService = new CalculatorServiceImpl();
+
+    @Test
+    public void sumaEnteros() {
+        int num1 = 1;
+        int num2 = 97;
+        assertEquals(98, calcService.sumaInt(num1, num2));
+    }
+}
+```
