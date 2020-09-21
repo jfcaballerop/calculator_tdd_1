@@ -119,3 +119,56 @@ Aquí entran 2 tipos de pruebas:
 Por una lado debemos probar sólo el código del Controller, revisando los datos recibidos, y testeando los tipos de datos, si falta, si el tipo no coincide, o se modifica alguno ...
 
 ### Pruebas de Integracion
+Con @WebMvcTest y MockMVC podremos testear esas llamadas al controller.
+
+
+```java
+@ExtendWith(SpringExtension.class)
+@WebMvcTest
+public class OperacionesControllerTest {
+    @Autowired
+    MockMvc mockMvc;
+
+    @MockBean
+    private CalculatorService calcService;
+
+     @Test
+    public void startCalc() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/poweron").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andExpect(content().string("powerOn"));
+    }
+
+    @Test
+    @DisplayName("POST /sumar")
+    public void sumar() throws Exception {
+        /*sumar int*/
+        JSONObject json = new JSONObject();
+        json.put("num1", 1);
+        json.put("num2", 2);
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.post("/sumar")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(json.toString())
+        )
+        // Validate the response code and content type
+        .andExpect(status().isOk())
+        .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+
+        //validate operation
+        .andExpect(jsonPath("$.res", is(3)));
+        
+    }
+
+    static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+}
+```
