@@ -115,7 +115,7 @@ Aquí entran 2 tipos de pruebas:
 
 * Pruebas de integracion.
 
-#### Pruebas unitarias
+### Pruebas unitarias
 Por una lado debemos probar sólo el código del Controller, revisando los datos recibidos, y testeando los tipos de datos, si falta, si el tipo no coincide, o se modifica alguno ...
 
 ### Pruebas de Integracion
